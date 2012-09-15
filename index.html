@@ -27,11 +27,14 @@
       <section id="main_content">
         <h2><b>What is this IP Address "169.254.169.254"?</b></h2>
 
-	<p>I was going through the documentation of AWS when I found a totally new thing which says that an amazon instance may access instance-specific metadata as well as data supplied when launching the instance by using by querying at http://169.254.169.254/. At first read, I felt how it is possible that all instances can get its own specific metadata by hitting the same URL.</p>
+	<p>I was going through the documentation of AWS when I found a totally new thing which says that an amazon instance may access instance-specific metadata as well as data supplied when launching the instance by querying at http://169.254.169.254/. At first read, I felt how it is possible that all instances can get its own specific metadata by hitting the same URL.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>First, I didn't even believe this. So I logged into two of the instances and queried the same thing randomly picking one of the metadata called user-data. The result shocked me once again.</p>
+<pre><code>
+pradeep@nat-host-1b$ /usr/bin/curl -s http://169.254.169.254/latest/user-data
+nat-host-1b
+pradeep@nat-host-1c$ /usr/bin/curl -s http://169.254.169.254/latest/user-data
+nat-host-1c
 </code></pre>
 
 <p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
