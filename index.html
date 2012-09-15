@@ -29,7 +29,7 @@
 
 	<p>I was going through the documentation of AWS when I found a totally new thing which says that an amazon instance may access instance-specific metadata as well as data supplied when launching the instance by making a query at http://169.254.169.254/. At first read, I felt how it is possible that all instances can get its own specific metadata by hitting the same URL.</p>
 
-<p>First, I didn't even believe this. So I logged into two of the instances and queried the same thing randomly picking one of the metadata called user-data. The result shocked me once again.</p>
+<p>So I logged into two of the instances and queried the same thing by randomly picking one of the metadata called user-data as given in the documentation. The result shocked me once again.</p>
 <pre><code>
 pradeep@nat-host-1b$ curl -s http://169.254.169.254/latest/user-data
 nat-host-1b
