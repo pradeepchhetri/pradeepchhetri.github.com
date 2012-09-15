@@ -39,9 +39,9 @@ nat-host-1c
 
 	<p>After doing some google search, I got <a href="http://tools.ietf.org/html/rfc5735">RFC 5735</a> which says it to be one of the Link-Local IPv4 Address. I had heard of IPv6 Link-Local addresses but never of its kind in IPv4 address scheme.</p>  
 
-<h3>Designer Templates</h3>
+<h3>Finally What is this heck ??</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+Suppose you have configured your eth0 to take IP from a DHCP server and by chance if your DHCP server is itself down, then it won't get any IP which will prevent both the communication within the LAN as well as to any machine outside the LAN ( or Internet). But for just LAN communication, whether getting an IP from DHCP is really important, can't we not just give IP from some subnet to all machine and start talking to each other. Yeah !!. This is the Hit. So what IETF has done is they have reserved one block (169.254.0.0/16 - Link Local Block) for this reason only. So if any interface configured to take IP through DHCP don't receive any response for its DHCP Discover Packets within the Timeout Period, it takes an IP (Candidate IP) from that Link Local Block. But before taking any IP its first confirms that no other device is having the same IP address which it has selected. So for this, it just do an ARP probe for that IP. If a reply is received to the ARP, it indicates the candidate IP address is already in use; a new random candidate IP address is then created and the process repeated. The process ends when there is no reply to the ARP, indicating the candidate IP address is available.
 
 <h3>Rather Drive Stick?</h3>
 
