@@ -41,19 +41,13 @@ nat-host-1c
 
 <h3>Finally What is this heck ??</h3>
 
-Suppose you have configured your eth0 to take IP from a DHCP server and by chance if your DHCP server is itself down, then it won't get any IP which will prevent both type of communications within the LAN as well as to any machine outside the LAN (Internet). But for just LAN communication, whether getting an IP from DHCP is really important, can't we not just give IP from some subnet to all machine and start talking to each other. Yeah !!. This is the Hit. So what IETF has done is they have reserved one block (169.254.0.0/16 - Link Local Block) for this reason only. So if any interface configured to take IP through DHCP don't receive any response for its DHCP Discover Packets within the Timeout Period, it takes an IP (Candidate IP) from that Link Local Block. But before taking any IP its first confirms that no other device is having the same IP address which it has selected. So for this, it just do an ARP probe for that IP. If a reply is received to the ARP, it indicates the candidate IP address is already in use; a new random candidate IP address is then created and the process repeated. The process ends when there is no reply to the ARP, indicating the candidate IP address is available.
+<p>Suppose you have configured the network interface of your machine to take IP from DHCP server and by chance if your DHCP server is itself down, then it won't get any IP which will prevent both type of communications within the LAN as well as to any machine outside the LAN (Internet). But for just LAN communication, whether getting an IP from DHCP is really important, can't we just give free IPs from some available subnet to all machine and start talking to each other. Yeah !!. This is the Hit. So what IETF has done is that they have reserved one block (169.254.0.0/16 - Link Local Block) for this reason only. So if any interface configured to take IP through DHCP don't receive any response for its DHCP Discover Packets within the Timeout Period, it takes an IP (Candidate IP) from that Link Local Block. But before taking any IP it shud first confirms that no other device is having the same IP address which it has selected. So for this, it just do an ARP probe for that IP. If a reply is received to the ARP, it indicates the candidate IP address is already in use; a new random candidate IP address is then created and the process repeated. The process ends when there is no reply to the ARP, indicating the candidate IP address is available.</p>
 
-<h3>Rather Drive Stick?</h3>
+<h3>How EC2 has exploited this Link-Local Block ?</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
 
-<h3>Authors and Contributors</h3>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
 
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
       </section>
     </div>
 
