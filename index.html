@@ -27,7 +27,7 @@
       <section id="main_content">
         <h2><b>What is this IP Address "169.254.169.254"?</b></h2>
 
-	<p>I was going through the documentation of AWS when I found a totally new thing which says that an amazon instance may access instance-specific metadata as well as data supplied when launching the instance by making a query at http://169.254.169.254/. At first read, I felt how it is possible that all instances can get its own specific metadata by hitting the same URL.</p>
+	<p>I was going through the AWS documentation when I found a totally new thing which says that an amazon instance may access instance-specific metadata as well as data supplied when launching the instance by making a query at http://169.254.169.254/. At first read, I felt how it is possible that all instances can get its own specific metadata by hitting the same URL.</p>
 
 <p>So I logged into two of the instances and queried the same thing by randomly picking one of the metadata called user-data as given in the documentation. The result shocked me once again.</p>
 <pre><code>
@@ -41,7 +41,7 @@ nat-host-1c
 
 <h3>Finally What is this heck ??</h3>
 
-<p>Suppose you have configured the network interface of your machine to take IP from DHCP server and by chance if your DHCP server is itself down, then it won't get any IP which will prevent both type of communications within the LAN as well as to any machine outside the LAN (Internet). But for just LAN communication, whether getting an IP from DHCP is really important, can't we just give free IPs from some available subnet to all machine and made them start talking to each other. Yeah....this is the hit. So what IETF has done is that they have reserved one Class B block (169.254.0.0/16: Link Local Block) for this reason only. So if any network interface configured to take settings from DHCP, don't receive any response for its DHCP Discover Packets within the Timeout Period, then it selects an IP (Candidate IP) from that Link Local Block. But before taking any IP it shud first confirms that no other device is having the same IP address which it has selected. So for this, it just do an ARP probe for that IP. If a reply is received to the ARP, it indicates the candidate IP address is already in use; a new random candidate IP address is then created and the process repeated. The process ends when there is no reply to the ARP, indicating the candidate IP address is available.</p>
+<p>Suppose you have configured the network interface of your machine to take IP from DHCP server and by chance if your DHCP server is itself down, then it won't get any IP which will prevent both type of communications within the LAN as well as to any machine outside the LAN (Internet). But for just LAN communication, whether getting an IP from DHCP is really important, can't we just give free IPs from some available subnet to all machine and made them start talking to each other. Yeah....this is the hit. So what IETF has done is that they have reserved one Class B block (169.254.0.0/16: Link Local Block) for this reason only. So if any network interface configured to take settings from DHCP, don't receive any response for its DHCP Discover Packets within the Timeout Period, then it selects an IP (Candidate IP) from that Link Local Block. But before taking any IP it should first confirms that no other device is having the same IP address which it has selected. So for this, it just do an ARP probe for that IP. If a reply is received to the ARP, it indicates the candidate IP address is already in use; a new random candidate IP address is then created and the process repeated. The process ends when there is no reply to the ARP, indicating the candidate IP address is available.</p>
 
 <h3>How EC2 has exploited this Link-Local Address ?</h3>
 
@@ -93,6 +93,7 @@ reservation-id
 security-groups
 </code></pre>
 
+Now you can get any kind of metadata by just curling it. Awesome !!!!
 
 
       </section>
