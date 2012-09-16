@@ -45,6 +45,28 @@ nat-host-1c
 
 <h3>How EC2 has exploited this Link-Local Address ?</h3>
 
+<p>Amazon provides instance-specific metadata by using this IP address. 
+
+<p>Lets try out by hitting the URL http://169.254.269.254/ just.</p>
+
+<pre><code>
+pradeep$ curl -s http://169.254.269.254/
+1.0
+2007-01-19
+2007-03-01
+latest
+</code></pre>
+
+<p> It returned all the available versions of metadata. </p>
+
+<p>Lets try out by hitting the latest version of metadata.</p>
+
+<pre><code>
+pradeep$ curl -s http://169.254.269.254/latest/
+dynamic
+meta-data
+user-data
+</code></pre>
 
 
 
