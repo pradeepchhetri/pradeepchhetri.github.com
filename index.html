@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Pradeep Chhetri's Blog</title>
+  </head>
+
+  <body>
+
+    <header>
+      <h1> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Loading the Home Directory of Pradeep Chhetri....</h1> 
+      
+      
+      <div class="container">
+        <section id="downloads">
+	</section>
+      </div>
+    </header>
+
+    <div class="container" align="justify">
+      <section id="main_content">
+        <h2><b>What is this IP Address "169.254.169.254"?</b></h2>
+
+	<p>I was going through the AWS documentation when I found a totally new thing which says that an amazon instance may access instance-specific metadata as well as data supplied when launching the instance by making a query at http://169.254.169.254/. At first read, I felt how it is possible that all instances can get its own specific metadata by hitting the same URL.</p>
+
+<p>So I logged into two of the instances and queried the same thing by randomly picking one of the metadata called user-data as given in the documentation. The result shocked me once again.</p>
+<pre><code>
+pradeep@nat-host-1b$ curl -s http://169.254.169.254/latest/user-data
+nat-host-1b
+pradeep@nat-host-1c$ curl -s http://169.254.169.254/latest/user-data
+nat-host-1c
+</code></pre>
+
+	<p>After doing some google search, I got <a href="http://tools.ietf.org/html/rfc5735">RFC 5735</a> which says it to be one of the Link-Local IPv4 Address. I had heard of IPv6 Link-Local addresses but never of its kind in IPv4 address scheme.</p>  
+
+<h3>Finally What is this heck ??</h3>
+
+<p>Suppose you have configured the network interface of your machine to take IP from DHCP server and by chance if your DHCP server is itself down, then it won't get any IP which will prevent both type of communications within the LAN as well as to any machine outside the LAN (Internet). But for just LAN communication, whether getting an IP from DHCP is really important, can't we just give free IPs from some available subnet to all machine and made them start talking to each other. Yeah....this is the hit. So what IETF has done is that they have reserved one Class B block (169.254.0.0/16: Link Local Block) for this reason only. So if any network interface configured to take settings from DHCP, don't receive any response for its DHCP Discover Packets within the Timeout Period, then it selects an IP (Candidate IP) from that Link Local Block. But before taking any IP it should first confirms that no other device is having the same IP address which it has selected. So for this, it just do an ARP probe for that IP. If a reply is received to the ARP, it indicates the candidate IP address is already in use; a new random candidate IP address is then created and the process repeated. The process ends when there is no reply to the ARP, indicating the candidate IP address is available.</p>
+
+<h3>How EC2 has exploited this Link-Local Address ?</h3>
+
+<p>Amazon provides instance-specific metadata by using this IP address. 
+
+<p>Lets try out by hitting the URL http://169.254.269.254/ just.</p>
+
+<pre><code>
+pradeep$ curl -s http://169.254.269.254/
+1.0
+2007-01-19
+2007-03-01
+latest
+</code></pre>
+
+<p> It returned all the available versions of metadata. </p>
+
+<p>Lets try out by hitting the latest version of metadata.</p>
+
+<pre><code>
+pradeep$ curl -s http://169.254.269.254/latest/
+dynamic
+meta-data
+user-data
+</code></pre>
+
+<p>Lets check what all sorts of metadata is there.</p>
+
+<pre><code>
+pradeep$ curl -s http://169.254.269.254/latest/meta-data/
+ami-id
+ami-launch-index
+ami-manifest-path
+block-device-mapping/
+hostname
+instance-action
+instance-id
+instance-type
+kernel-id
+local-hostname
+local-ipv4
+mac
+metrics/
+network/
+placement/
+profile
+public-keys/
+reservation-id
+security-groups
+</code></pre>
+
+Now you can get any kind of metadata about the running instance by just curling it. Awesome !!!!
+
+
+      </section>
+    </div>
+
+  </body>
+</html>
